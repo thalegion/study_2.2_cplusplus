@@ -42,6 +42,7 @@ BOOL                InitInstance(HINSTANCE, int);
 void				ProcessMenu(int);
 void				GetProcessInfo(int);
 std::wstring		convert2Wstring(LPDWORD);
+std::wstring		convert2Wstring(DWORD);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    ProcessInfo(HWND, UINT, WPARAM, LPARAM);
 
@@ -263,16 +264,35 @@ void ProcessMenu(int index) {
 void GetProcessInfo(int index) {
 	//DialogBox(hInst, (LPCWSTR)IDD_ABOUTBOX, hWnd, (DLGPROC)ProcessInfo);
 	msgBoxCaption = L"Информация о процессе";
-	LPDWORD procExitCode = NULL, threadExitCode = NULL;
-	
-	GetExitCodeProcess(ProcHandle[index], procExitCode);
-	GetExitCodeThread(ThreadHandle[index], threadExitCode);
+	DWORD procExitCode = NULL, 
+		threadExitCode = NULL,
+		priorityCode = NULL;
 
 	msgWBoxContent = L"Имя файла: " + std::wstring(ProcImage[index]);
 	msgWBoxContent += L"\nПараметры командной строки: " + std::wstring(CmdParam[index]);
-	msgWBoxContent += L"\nКод завершения процесса: " + convert2Wstring(procExitCode);
-	msgWBoxContent += L"\nКод завершения потока: " + convert2Wstring(threadExitCode);
-	msgWBoxContent += L"\nИдентификатор класса приоритета процесса: " + GetPriorityClass(ProcHandle[index]);
+	
+	BOOL exitProcCheck = GetExitCodeProcess(ProcHandle[index], &procExitCode);
+	DWORD code;
+	if (exitProcCheck) {
+		if (procExitCode == 0)
+			msgWBoxContent += L"\nКод завершения процесса: Состояние - Активен ";
+		else
+			msgWBoxContent += L"\nКод завершения процесса: " + convert2Wstring(procExitCode);
+	}
+	else
+		code = GetLastError();
+	BOOL exitThreadCheck = GetExitCodeThread(ThreadHandle[index], &threadExitCode);
+	if (exitThreadCheck == 1) {
+		if (threadExitCode == 0)
+			msgWBoxContent += L"\nКод завершения потока: Состояние - Активен ";
+		else
+			msgWBoxContent += L"\nКод завершения потока: " + convert2Wstring(threadExitCode);
+	}
+	else
+		code = GetLastError();
+
+	priorityCode = GetPriorityClass(ProcHandle[index]);
+	msgWBoxContent += L"\nИдентификатор класса приоритета процесса: " + convert2Wstring(priorityCode);
 	//msgWBoxContent += L"\nВременные характеристики: " + GetTickCount() + L" " + GetProcessTimes(ProcHandle[0]);
 	msgBoxContent = msgWBoxContent.c_str();
 
@@ -280,6 +300,11 @@ void GetProcessInfo(int index) {
 }
 
 std::wstring convert2Wstring(LPDWORD value) {
+	std::wstringstream str;
+	str << value;
+	return str.str();
+}
+std::wstring convert2Wstring(DWORD value) {
 	std::wstringstream str;
 	str << value;
 	return str.str();
