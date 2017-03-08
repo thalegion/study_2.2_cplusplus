@@ -28,6 +28,8 @@ const UINT ID_PROCESS_INFO_NOTEPAD = 1;
 const UINT ID_PROCESS_INFO_NOTEPAD_TEXT = 2;
 const UINT ID_PROCESS_INFO_CALCULATOR = 3;
 
+const UINT ID_FILENAME_INPUT = 8;
+
 //Массивы для лабы:
 HANDLE ProcHandle[4];// для дескрипторов процессов;
 DWORD ProcId[4];// для идентификаторов процессов;
@@ -43,6 +45,7 @@ void				ProcessMenu(int);
 void				GetProcessInfo(int);
 std::wstring		convert2Wstring(LPDWORD);
 std::wstring		convert2Wstring(DWORD);
+std::wstring		convert2Wstring(SYSTEMTIME*);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    ProcessInfo(HWND, UINT, WPARAM, LPARAM);
 
@@ -211,7 +214,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				ProcessMenu(3);
 				break;
 			case ID_PROCESS_CALCULATOR_CLOSE:
-				TerminateProcess(ProcHandle[3], 4);
+				TerminateProcess(ProcHandle[3], 61);
 				break;
 			case ID_PROCESS_INFO_CURRENT:
 			case ID_PROCESS_INFO_NOTEPAD:
@@ -274,7 +277,7 @@ void GetProcessInfo(int index) {
 	BOOL exitProcCheck = GetExitCodeProcess(ProcHandle[index], &procExitCode);
 	DWORD code;
 	if (exitProcCheck) {
-		if (procExitCode == 0)
+		if (procExitCode == STILL_ACTIVE)
 			msgWBoxContent += L"\nКод завершения процесса: Состояние - Активен ";
 		else
 			msgWBoxContent += L"\nКод завершения процесса: " + convert2Wstring(procExitCode);
@@ -283,7 +286,7 @@ void GetProcessInfo(int index) {
 		code = GetLastError();
 	BOOL exitThreadCheck = GetExitCodeThread(ThreadHandle[index], &threadExitCode);
 	if (exitThreadCheck == 1) {
-		if (threadExitCode == 0)
+		if (threadExitCode == STILL_ACTIVE)
 			msgWBoxContent += L"\nКод завершения потока: Состояние - Активен ";
 		else
 			msgWBoxContent += L"\nКод завершения потока: " + convert2Wstring(threadExitCode);
@@ -293,7 +296,42 @@ void GetProcessInfo(int index) {
 
 	priorityCode = GetPriorityClass(ProcHandle[index]);
 	msgWBoxContent += L"\nИдентификатор класса приоритета процесса: " + convert2Wstring(priorityCode);
-	//msgWBoxContent += L"\nВременные характеристики: " + GetTickCount() + L" " + GetProcessTimes(ProcHandle[0]);
+
+	FILETIME ft[4];
+	SYSTEMTIME st[4];
+	TCHAR strTime[4][MAX_PATH];
+
+	if (GetProcessTimes(ProcHandle[index], &ft[0], &ft[1], &ft[2], &ft[3]) > 0) {
+		if (ft[1].dwHighDateTime == ft[1].dwLowDateTime) {
+			SYSTEMTIME sTemp;
+			GetSystemTime(&sTemp);
+			SystemTimeToFileTime(&sTemp, &ft[1]);
+		}
+
+		for (int i = 2; i < 4; i++) {
+			FileTimeToSystemTime(&ft[i], &st[i]);
+
+			GetTimeFormat(LOCALE_NAME_USER_DEFAULT, NULL, &st[i], NULL, strTime[i], MAX_PATH);
+		}
+
+		ULARGE_INTEGER ul1;
+			ul1.LowPart = ft[0].dwLowDateTime;
+			ul1.HighPart = ft[0].dwHighDateTime;
+		ULARGE_INTEGER ul2;
+			ul2.LowPart = ft[1].dwLowDateTime;
+			ul2.HighPart = ft[1].dwHighDateTime;
+
+			ul2.QuadPart -= ul1.QuadPart;
+			ul2.QuadPart /= 10*1000*1000;
+
+		msgWBoxContent += L"\nВременные характеристики: ";
+		msgWBoxContent += L"\n\tВремя жизни процесса: " + convert2Wstring(ul2.QuadPart) + L"c";
+		//msgWBoxContent += L"\n\tВремя создания процесса: " + std::wstring(strTime[0]);
+		//msgWBoxContent += L"\n\tВремя закрытия процесса: " + std::wstring(strTime[1]);
+		msgWBoxContent += L"\n\tВремя в режиме пользователя: " + std::wstring(strTime[2]);
+		msgWBoxContent += L"\n\tВремя в режиме ядра: " + std::wstring(strTime[3]);
+	}
+
 	msgBoxContent = msgWBoxContent.c_str();
 
 	MessageBox(hWnd, msgBoxContent, msgBoxCaption, 0);

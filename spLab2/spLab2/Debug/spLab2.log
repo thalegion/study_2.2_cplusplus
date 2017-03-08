@@ -1,0 +1,3 @@
+﻿  spLab2.cpp
+c:\users\a s u s\documents\visual studio 2013\projects\study_2.2_cplusplus\splab2\splab2\splab2.cpp(421): warning C4244: аргумент: преобразование "ULONGLONG" в "DWORD", возможна потеря данных
+  spLab2.vcxproj -> C:\Users\a s u s\Documents\Visual Studio 2013\Projects\study_2.2_cplusplus\spLab2\Debug\spLab2.exe
