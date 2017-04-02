@@ -346,11 +346,12 @@ DWORD WINAPI thread1Func(LPVOID lpParam) {
 		int x, w, y, h;
 		y = -100; h = 200;
 		x = 100; w = 500;
-		CreateWindowW(L"static", L"Бегущюю строку создал Фут", WS_VISIBLE | WS_CHILD, 16, 16, 490, 25,hWnd, 0, NULL, NULL);
+		CreateWindow(L"static", L"Бегущюю строку создал Фут", WS_VISIBLE | WS_CHILD, 0, 0, 490, 25,hWnd, NULL, NULL, NULL);
 
 		return 0;
 	//}
 }
+
 DWORD WINAPI thread2Func(LPVOID lpParam) {
 	//while (true) {
 	int x, w, y, h;
