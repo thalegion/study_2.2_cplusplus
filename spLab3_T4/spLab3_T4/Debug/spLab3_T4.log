@@ -1,8 +1,10 @@
-﻿  spLab3_T4.cpp
-c:\users\a s u s\documents\visual studio 2013\projects\study_2.2_cplusplus\splab3_t4\splab3_t4\splab3_t4.cpp(4): warning C4603: _WIN32_WINDOWS: макрос не определен или определение изменилось после использования предкомпилированного заголовка
-  c:\users\a s u s\documents\visual studio 2013\projects\study_2.2_cplusplus\splab3_t4\splab3_t4\splab3_t4.cpp(4): note: Добавление макроопределения в предкомпилированный заголовок вместо определения его здесь
-  c:\users\a s u s\documents\visual studio 2013\projects\study_2.2_cplusplus\splab3_t4\splab3_t4\splab3_t4.cpp(8): note: использование предварительно скомпилированного заголовка
-c:\users\a s u s\documents\visual studio 2013\projects\study_2.2_cplusplus\splab3_t4\splab3_t4\splab3_t4.cpp(5): warning C4603: WINVER: макрос не определен или определение изменилось после использования предкомпилированного заголовка
-  c:\users\a s u s\documents\visual studio 2013\projects\study_2.2_cplusplus\splab3_t4\splab3_t4\splab3_t4.cpp(5): note: Добавление макроопределения в предкомпилированный заголовок вместо определения его здесь
-  c:\users\a s u s\documents\visual studio 2013\projects\study_2.2_cplusplus\splab3_t4\splab3_t4\splab3_t4.cpp(8): note: использование предварительно скомпилированного заголовка
-  spLab3_T4.vcxproj -> C:\Users\a s u s\Documents\Visual Studio 2013\Projects\study_2.2_cplusplus\spLab3_T4\Debug\spLab3_T4.exe
+﻿  stdafx.cpp
+  spLab3_T4.cpp
+c:\users\user\documents\visual studio 2015\projects\study_2.2_cplusplus\splab3_t4\splab3_t4\splab3_t4.cpp(4): warning C4603: _WIN32_WINDOWS: макрос не определен или определение изменилось после использования предкомпилированного заголовка
+  c:\users\user\documents\visual studio 2015\projects\study_2.2_cplusplus\splab3_t4\splab3_t4\splab3_t4.cpp(4): note: Добавление макроопределения в предкомпилированный заголовок вместо определения его здесь
+  c:\users\user\documents\visual studio 2015\projects\study_2.2_cplusplus\splab3_t4\splab3_t4\splab3_t4.cpp(8): note: использование предварительно скомпилированного заголовка
+c:\users\user\documents\visual studio 2015\projects\study_2.2_cplusplus\splab3_t4\splab3_t4\splab3_t4.cpp(5): warning C4603: WINVER: макрос не определен или определение изменилось после использования предкомпилированного заголовка
+  c:\users\user\documents\visual studio 2015\projects\study_2.2_cplusplus\splab3_t4\splab3_t4\splab3_t4.cpp(5): note: Добавление макроопределения в предкомпилированный заголовок вместо определения его здесь
+  c:\users\user\documents\visual studio 2015\projects\study_2.2_cplusplus\splab3_t4\splab3_t4\splab3_t4.cpp(8): note: использование предварительно скомпилированного заголовка
+  spLab3_T4.vcxproj -> C:\Users\User\Documents\Visual Studio 2015\Projects\study_2.2_cplusplus\spLab3_T4\Debug\spLab3_T4.exe
+  spLab3_T4.vcxproj -> C:\Users\User\Documents\Visual Studio 2015\Projects\study_2.2_cplusplus\spLab3_T4\Debug\spLab3_T4.pdb (Full PDB)

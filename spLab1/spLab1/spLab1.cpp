@@ -15,7 +15,7 @@ LPCWSTR msgBoxCaption;
 LPCWSTR msgBoxContent;
 std::wstring msgWBoxContent;
 TCHAR currentFile[MAX_PATH];
-TCHAR currentDirectory[MAX_PATH];
+TCHAR currentDirectory[MAX_PATH]; 
 
 // Идентификаторы меню:
 const UINT ID_PROCESS_NOTEPAD = 4;
